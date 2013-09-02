@@ -17,7 +17,7 @@ $e =& $modx->event;
 
 switch ($e->name) {
 	case 'OnLoadWebDocument':
-		if ($_REQUEST['mode'] == 'ajaxify'){
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 			$modx->contentTypes[$modx->documentIdentifier] = 'application/json';
 		}		
 		$current_template = $modx->documentObject['template'];
@@ -44,7 +44,7 @@ switch ($e->name) {
 	
 		break;	
 	case 'OnWebPagePrerender':
-		if ($_REQUEST['mode'] == 'ajaxify'){
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 			function encodeURIComponent($str) {
 				$str = str_replace("\r\n", "\n", $str);
 				$revert = array('%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')', '%C2%A0'=>'%26nbsp%3B');
@@ -80,7 +80,6 @@ switch ($e->name) {
 				'title' => $title,
 				'partials' => $partials
 			);
-			$modx->logEvent(1,1,print_r($data,true), 'Ajaxify');
 			$modx->documentOutput = json_encode($data);
 		}
 		break;
