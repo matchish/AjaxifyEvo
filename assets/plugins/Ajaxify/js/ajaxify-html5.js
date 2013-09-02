@@ -1,6 +1,6 @@
 // Ajaxify
-// v1.0.1 - 30 September, 2012
-// https://github.com/browserstate/ajaxify
+// v0.1
+
 (function(window,undefined){
 	
 	// Prepare our Variables
@@ -19,13 +19,6 @@
 		// Prepare Variables
 		var
 			/* Application Specific Variables */
-			/*contentSelector = '#content,article:first,.article:first,.post:first',
-			$content = $(contentSelector).filter(':first'),
-			contentNode = $content.get(0),
-			$menu = $('#menu,#nav,nav:first,.nav:first').filter(':first'),
-			activeClass = 'active selected current youarehere',
-			activeSelector = '.active,.selected,.current,.youarehere',
-			menuChildrenSelector = '> li,> ul > li',*/
 			completedEventName = 'statechangecomplete',
 			/* Application Generic Variables */
 			$window = $(window),
@@ -37,10 +30,7 @@
 			};
 		
 		// Ensure Content
-		/*if ( $content.length === 0 ) {
-			$content = $body;
-		}*/
-		
+	
 		// Internal Helper
 		$.expr[':'].internal = function(obj, index, meta, stack){
 			// Prepare
@@ -54,21 +44,8 @@
 			
 			// Ignore or Keep
 			return isInternalLink;
-		};
-		
-		// HTML Helper
-		/*var documentHtml = function(html){
-			// Prepare
-			var result = String(html)
-				.replace(/<\!DOCTYPE[^>]*>/i, '')
-				.replace(/<(html|head|body|title|meta|script)([\s\>])/gi,'<div class="document-$1"$2')
-				.replace(/<\/(html|head|body|title|meta|script)\>/gi,'</div>')
-			;
-			
-			// Return
-			return $.trim(result);
-		};*/
-		
+		};		
+	
 		// Ajaxify Helper
 		$.fn.ajaxify = function(){
 			// Prepare
@@ -126,10 +103,6 @@
 					// Prepare
 					var
 						partial;
-						/*$data = $(documentHtml(data)),
-						$dataBody = $data.find('.document-body:first'),
-						$dataContent = $dataBody.find(contentSelector).filter(':first'),
-						$menuChildren, contentHtml, $scripts;*/
 	
 					for (var i = 0; i < data.partials.length; i++) {	
 						partial = data.partials[i];					
@@ -137,27 +110,6 @@
 						.ajaxify().css('opacity',100).show();			
 					};
 					$('[data-ajaxify]').stop(true,true).css('opacity',100).show();
-					// Fetch the scripts
-					/*$scripts = $dataContent.find('.document-script');
-					if ( $scripts.length ) {
-						$scripts.detach();
-					}*/
-
-					// Fetch the content
-					/*if ( !contentHtml ) {
-						document.location.href = url;
-						return false;
-					}*/
-					
-					// Update the menu
-					/*$menuChildren = $menu.find(menuChildrenSelector);
-					$menuChildren.filter(activeSelector).removeClass(activeClass);
-					$menuChildren = $menuChildren.has('a[href^="'+relativeUrl+'"],a[href^="/'+relativeUrl+'"],a[href^="'+url+'"]');
-					if ( $menuChildren.length === 1 ) { $menuChildren.addClass(activeClass); }
-
-					// Update the content
-					$content.stop(true,true);
-					$content.html(contentHtml).ajaxify().css('opacity',100).show(); /* you could fade in here if you'd like */
 
 					// Update the title
 					document.title = data.title;
@@ -166,17 +118,6 @@
 					}
 					catch ( Exception ) { }
 					
-					// Add the scripts
-					/*$scripts.each(function(){
-						var $script = $(this), scriptText = $script.text(), scriptNode = document.createElement('script');
-						if ( $script.attr('src') ) {
-							if ( !$script[0].async ) { scriptNode.async = false; }
-							scriptNode.src = $script.attr('src');
-						}
-    						scriptNode.appendChild(document.createTextNode(scriptText));
-						contentNode.appendChild(scriptNode);
-					});*/
-
 					// Complete the change
 					if ( $body.ScrollTo||false ) { $body.ScrollTo(scrollOptions); } /* http://balupton.com/projects/jquery-scrollto */
 					$body.removeClass('loading');

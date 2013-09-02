@@ -7,7 +7,7 @@
  * @category    plugin
  * @version     0.1
  * @author      Husband
- * @internal    @properties &templates=ID шаблонов на которых рабатывает плагин;text;6 &jquery=jQuery;text;0
+ * @internal    @properties &templates=ID шаблонов на которых рабатывает плагин;text;7 &jquery=jQuery;text;0
  * @internal    @events OnLoadWebDocument,OnWebPagePrerender
  * @internal    @installset base
  */
@@ -17,29 +17,29 @@ $e =& $modx->event;
 
 switch ($e->name) {
 	case 'OnLoadWebDocument':
+		if ($_REQUEST['mode'] == 'ajaxify'){
+			$modx->contentTypes[$modx->documentIdentifier] = 'application/json';
+		}		
 		$current_template = $modx->documentObject['template'];
 		$templates = explode(',',$templates);
 		if (!in_array($current_template ,$templates)){
 			return '';
 		}	
-		if ($_REQUEST['mode'] == 'ajaxify'){
-			$modx->contentTypes[$modx->documentIdentifier] = 'application/json';
-		}	
 		if ($jquery){
-			$jquery = 'assets/plugins/ajaxify/jquery.min.js';
+			$jquery = 'assets/plugins/Ajaxify/js/jquery.min.js';
 			$modx->regClientStartupScript($jquery, array('name' => 'jquery', 'version' => '1.9.1'));
 		}
 
-		$scrollto = 'assets/plugins/ajaxify/jquery-scrollto.js';
+	$scrollto = 'assets/plugins/Ajaxify/js/jquery-scrollto.js';
 		$modx->regClientScript($scrollto, array('name' => 'jquery-scrollto'));
 
-		$history = 'assets/plugins/ajaxify/jquery.history.js';
+	$history = 'assets/plugins/Ajaxify/js/jquery.history.js';
 		$modx->regClientScript($history, array('name' => 'jquery.history'));
 
-		$ajaxify_evo = 'assets/plugins/ajaxify/ajaxify-html5.js';
+	$ajaxify_evo = 'assets/plugins/Ajaxify/js/ajaxify-html5.js';
 		$modx->regClientScript($ajaxify_evo, array('name' => 'ajaxify_evo',  'version' => '0.1'));
 	
-		$crc32 = 'assets/plugins/ajaxify/crc32.js';
+	$crc32 = 'assets/plugins/Ajaxify/js/crc32.js';
 		$modx->regClientScript($crc32, array('name' => 'crc32.jquery'));
 	
 		break;	
@@ -75,8 +75,13 @@ switch ($e->name) {
 				  }
 			  }
 			}	
-			libxml_use_internal_errors(false);			
-			$modx->documentOutput = '{"title":"'.$title.'" , "partials":'.json_encode($partials).'}';
+			libxml_use_internal_errors(false);				
+			$data = array(
+				'title' => $title,
+				'partials' => $partials
+			);
+			$modx->logEvent(1,1,print_r($data,true), 'Ajaxify');
+			$modx->documentOutput = json_encode($data);
 		}
 		break;
 }
