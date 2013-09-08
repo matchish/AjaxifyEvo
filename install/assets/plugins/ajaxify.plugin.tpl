@@ -96,9 +96,16 @@ switch ($e->name) {
 				foreach ($elements as $element) {
 					$html        = '';
 					$partialName = $element->getAttributeNode('data-ajaxify')->nodeValue;
+
+					$dom_partial = new DOMDocument('1.0', 'UTF-8');
+
 					foreach ($element->childNodes as $node) {
-						$html .= $dom_document->saveHTML($node);
+						$node = $dom_partial->importNode($node, true);
+						$dom_partial->appendChild($node);
 					}
+
+					$html = $dom_partial->saveHTML();
+
 					if ($_REQUEST[$partialName] != crc32(encodeURIComponent($html))) {
 						$partials[] = array(
 							'name' => $partialName,
