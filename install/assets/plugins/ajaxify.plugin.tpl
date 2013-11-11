@@ -20,7 +20,7 @@ $e =& $modx->event;
 switch ($e->name) {
 	case 'OnLoadWebDocument':
 		
-		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && $_REQUEST['ajaxify']) {
 			$modx->contentTypes[$modx->documentIdentifier] = 'application/json';
 		}
 		
@@ -62,7 +62,7 @@ switch ($e->name) {
 		break;
 		
 	case 'OnWebPagePrerender':
-		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && $_REQUEST['ajaxify']) {
 			
 			if (!function_exists(encodeURIComponent)) {
 				function encodeURIComponent($str)
