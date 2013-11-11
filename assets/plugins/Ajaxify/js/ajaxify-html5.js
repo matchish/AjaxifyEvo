@@ -90,7 +90,7 @@
 			// Start Fade Out
 			// Animating to opacity to 0 still keeps the element's height intact
 			// Which prevents that annoying pop bang issue when loading in new content
-			var data = {};
+			var data = {ajaxify: true};
 			$body.find('[data-ajaxify]').each(function(){
 				data[$(this).data('ajaxify')] = crc32(encodeURIComponent($(this).html()));	
 				if ($(this).hasClass("fade")){
