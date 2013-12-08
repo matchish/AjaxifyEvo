@@ -110,7 +110,7 @@
 	
 					for (var i = 0; i < data.partials.length; i++) {	
 						partial = data.partials[i];					
-						$('[data-ajaxify="'+partial.name+'"]').stop(true,true).data('hash', partial.hash).html(partial.html)
+						$('[data-ajaxify="'+partial.name+'"]').stop(true,true).html(partial.html)
 						.ajaxify().css('opacity',100).show();			
 					};
 					$('[data-ajaxify]').stop(true,true).css('opacity',100).show();
